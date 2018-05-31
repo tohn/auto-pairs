@@ -115,6 +115,14 @@ function! AutoPairsInsert(key)
     let eol = 1
   end
 
+  " Ignore auto close if next character is alphanumeric
+  " i.e. '(word' will remain '(word' and not auto pair to '()word' which we'll
+  " have to clean up
+  " commit: https://github.com/sonph/auto-pairs/commit/46b925bd341bd060f3bff933f997292f3da2cb54
+  if next_char =~ '\a'
+    return a:key
+  end
+
   " Ignore auto close if prev character is \
   if prev_char == '\'
     return a:key
